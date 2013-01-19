@@ -9,9 +9,8 @@ define(['../lib/util'], function( util ) {
 		
 		return function( frame ) {
 			var prevFrame = controller.frame(1);
-			var tenFramesAgo = controller.frame(5);
 			
-			if (!prevFrame || !tenFramesAgo || !prevFrame.valid || !tenFramesAgo.valid ) { return }
+			if (!prevFrame || !prevFrame.valid ) { return }
 					
 			frame.hands.forEach(function( hand ) {
 				
@@ -21,19 +20,17 @@ define(['../lib/util'], function( util ) {
 				if (hand.fingers.length) { return }
 				
 				var prevFrameHand = prevFrame.hand(hand.id);
-				var tenFrameHand = tenFramesAgo.hand(hand.id);
 				
-				if (!prevFrameHand.valid || !tenFrameHand.valid) { return }
+				if (!prevFrameHand.valid) { return }
 							
 				var currentVelocity = Math.floor( absSum(hand.palmVelocity) / PUNCH_DIVISOR );
 				var prevFrameVelocity = Math.floor( absSum(prevFrameHand.palmVelocity) / PUNCH_DIVISOR );
-				var tenFrameVelocity = Math.floor( absSum(tenFrameHand.palmVelocity) / PUNCH_DIVISOR );
 				
 				if (currentVelocity === 0 && prevFrameVelocity !== 0) {
 					lastPunches[hand.id] = frame.timestamp;
 					trigger('punch', hand);
 				} else {
-					//console.log( currentVelocity, prevFrameVelocity, tenFrameVelocity)
+					//console.log( currentVelocity, prevFrameVelocity)
 				}
 				
 			});
