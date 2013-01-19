@@ -62,6 +62,7 @@ MIT Licensed
 			
 			if (currentVelocity === 0 && prevFrameVelocity !== 0) {
 				lastPunches[hand.id] = frame.timestamp;
+				trigger('punch', hand);
 			} else {
 				//console.log( currentVelocity, prevFrameVelocity, tenFrameVelocity)
 			}
