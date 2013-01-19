@@ -3,15 +3,16 @@
 	<head>
 		<title>Leap Test</title>
 		<script src="../leapjs/leap.js"></script>
-		<script src="paperboy.js"></script>
-		<script src="polevault.js"></script>
-		<script type="text/javascript">
-			polevault.on('*', function(){
-				console.log.apply(console, arguments);
-			})
-		</script>
+		<script src="lib/require.js"></script>
 	</head>
 	<body>
 		<div id="container"></div>
 	</body>
+	<script type="text/javascript">
+		requirejs(['polevault'], function( polevault ) {
+			polevault.on('*', function(){
+				console.log.apply(console, arguments);
+			})
+		});
+	</script>
 </html>
