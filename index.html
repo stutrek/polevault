@@ -10,8 +10,10 @@
 	</body>
 	<script type="text/javascript">
 		requirejs(['polevault'], function( polevault ) {
-			polevault.on('*', function(){
-				console.log.apply(console, arguments);
+			polevault.on('*', function( type ){
+				if ( type !== 'frame' ) {
+					console.log.apply(console, arguments);
+				}
 			})
 		});
 	</script>

@@ -10,6 +10,7 @@ Pole Vault is a basic pubsub/observer. It monitors the Leap Motion detector and 
 
 ### Implemented
 
+* `frame` - a frame arrived from the detector.
 * `punch` - a closed fist goes forward then stops suddenly.
 * `tap` - a finger goes down then stops suddenly.
 * `point` -  the only finger on a hand holds still for a moment.

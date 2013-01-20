@@ -27,16 +27,16 @@ define(function( require, exports, module ) {
 			
 	controller.onFrame(function() {
 		var frame = controller.lastFrame;
-		if (frame.id % 10) {
-			//return;
-		}
+		
 		var punchingHands = detectPunches( frame );
 		var tappingPointables = detectTaps( frame );
 		var pointingPointables = detectPoints( frame );
 		
+		trigger('frame', frame);
 		punchingHands.forEach(triggerPunch);
 		tappingPointables.forEach(triggerTap);
 		pointingPointables.forEach(triggerPoint);
+		
 	})
 		
 	controller.connect()
