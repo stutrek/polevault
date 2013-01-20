@@ -2,7 +2,6 @@ define(['../lib/util'], function( util ) {
 	exports = {};
 
 	var isStill = util.isStill;
-	var getHandForPointable = util.getHandForPointable;
 
 	exports.create = function( controller ) {
 		var alreadyPointing = {};

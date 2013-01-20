@@ -4,7 +4,6 @@ define(['../lib/util'], function( util ) {
 	var TAP_DIVISOR = 100;
 	var comparator = util.createJitteredComparator( TAP_DIVISOR );
 	var handComparator = util.createJitteredComparator( 50 );
-	var getHandForPointable = util.getHandForPointable;
 	
 	exports.create = function( controller ) {
 		var lastTaps = {};
@@ -21,8 +20,8 @@ define(['../lib/util'], function( util ) {
 				if (lastTaps[pointable.id] > frame.timestamp - 250000) { return }
 				// taps go down.
 				
-				var hand = getHandForPointable( pointable, frame.hands );
-				if (hand === undefined) {
+				var hand = frame.hand(pointable.handId);
+				if (hand === undefined && !hand.valid) {
 					return;
 				}
 				var prevFramePointable = prevFrame.pointable(pointable.id);
