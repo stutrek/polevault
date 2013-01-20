@@ -2,6 +2,7 @@ define(['../lib/util'], function( util ) {
 	exports = {};
 
 	var isStill = util.isStill;
+	var STILL_TIME = util.toMicroseconds( 0.15 );
 
 	exports.create = function( controller ) {
 		var alreadyPointing = {};
@@ -14,7 +15,7 @@ define(['../lib/util'], function( util ) {
 			frame.pointables.forEach(function( pointable ) {
 				if (isStill(pointable)) {
 					//var hand = getHandForPointable( pointable, frame.hands );
-					if (!alreadyPointing[pointable.id] && (frame.timestamp - lastMotion[pointable.id]) > 100000) {
+					if (!alreadyPointing[pointable.id] && (frame.timestamp - lastMotion[pointable.id]) > STILL_TIME) {
 						pointingPointables.push(pointable);
 						alreadyPointing[pointable.id] = true;
 					}
