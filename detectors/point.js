@@ -13,6 +13,11 @@ define(['../lib/util'], function( util ) {
 			var pointingPointables = [];
 
 			frame.pointables.forEach(function( pointable ) {
+				var hand = frame.hand(pointable.handId);
+				
+				// you point with a single finger or a tool not attached to a hand
+				if (hand.valid && hand.fingers.length > 1) { return }
+				
 				if (isStill(pointable)) {
 					//var hand = getHandForPointable( pointable, frame.hands );
 					if (!alreadyPointing[pointable.id] && (frame.timestamp - lastMotion[pointable.id]) > STILL_TIME) {

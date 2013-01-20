@@ -3,6 +3,7 @@ define(['../lib/util'], function( util ) {
 	var absSum = util.absSum;
 	var PUNCH_DIVISOR = 300;
 	var comparator = util.createJitteredComparator( PUNCH_DIVISOR );
+	var DEBOUNCE_TIME = util.toMicroseconds( 0.25 );
 	
 	var exports = {};
 	exports.create = function( controller ) {
@@ -17,8 +18,7 @@ define(['../lib/util'], function( util ) {
 					
 			frame.hands.forEach(function( hand ) {
 				
-				// only punch once every 5/10 second
-				if (lastPunches[hand.id] > frame.timestamp - 250000) { return }
+				if (lastPunches[hand.id] > frame.timestamp - DEBOUNCE_TIME) { return }
 				// punches are fists, there should be no fingers.
 				if (hand.fingers.length) { return }
 				// punches go forward, not back.
