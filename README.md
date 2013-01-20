@@ -10,16 +10,25 @@ Pole Vault is a basic pubsub/observer. It monitors the Leap Motion detector and 
 
 ### Implemented
 
-* `punch` - a closed fist stopped suddenly.
-* `tap` - a finger stopped suddenly.
+* `punch` - a closed fist goes forward then stops suddenly.
+* `tap` - a finger goes down then stops suddenly.
 
 ### Planned
 
 * `point` - an extended finger held still for longer than a tap.
-* `slap` - an open hand stops suddenly.
-* `sweep` - all fingers start to move suddenly in the same direction.
-* `clap` - two hands close in on each other.
-* `shake` - a hand moves back and fourth quickly.
+* `wave` - a hand with three or more fingers rotates.
+ * `wave.start`
+ * `wave.stop`
+ 
+* `dribble` - an open hand goes down then stops, like a basketball.
+* `shake` - a fist moves back and fourth quickly.
+ * `shake.start`
+ * `shake.stop`
+
+### Technical Difficulties
+* `sweep` - all fingers start to move suddenly in the same direction. _When fingers get too close to the palm the device is unable to detect them._
+* `clap` - two hands close in on each other. _When two hands meet they they are detected as one_
+
 
 ### Roadmap
 
