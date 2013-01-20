@@ -1,9 +1,9 @@
 define(['../lib/util'], function( util ) {
 	exports = {};
 	
-	var TAP_DIVISOR = 200;
+	var TAP_DIVISOR = 100;
 	var comparator = util.createJitteredComparator( TAP_DIVISOR );
-	var handComparator = util.createJitteredComparator( 100 );
+	var handComparator = util.createJitteredComparator( 50 );
 	
 	function getHandForPointable( pointable, hands ) {
 		for( var i = 0; i < hands.length; i += 1 ) {
@@ -17,6 +17,7 @@ define(['../lib/util'], function( util ) {
 	
 	exports.create = function( controller ) {
 		var lastTaps = {};
+		var lastFastMotion = {};
 		return function( frame ) {
 			var prevFrame = controller.frame(1);
 			var tappingPointables = [];
@@ -27,6 +28,7 @@ define(['../lib/util'], function( util ) {
 				
 				// only tap once every 2.5/10 second
 				if (lastTaps[pointable.id] > frame.timestamp - 250000) { return }
+				// taps go down.
 				
 				var hand = getHandForPointable( pointable, frame.hands );
 				if (hand === undefined) {
@@ -35,18 +37,15 @@ define(['../lib/util'], function( util ) {
 				var prevFramePointable = prevFrame.pointable(pointable.id);
 				
 				if (!prevFramePointable.valid) { return }
-				if (handComparator( util.absSum(pointable.tipVelocity), util.absSum(hand.palmVelocity)) === 0) {
+				if (handComparator( pointable.tipVelocity[1], hand.palmVelocity[1]) === 0) {
 					return;
 				}
 							
-				var currentVelocity = Math.floor( util.absSum(pointable.tipVelocity) / TAP_DIVISOR );
-				var prevFrameVelocity = Math.floor( util.absSum(prevFramePointable.tipVelocity) / TAP_DIVISOR );
-				
-				if (currentVelocity === 0 && prevFrameVelocity !== 0 && comparator( pointable.tipVelocity, prevFramePointable.tipVelocity ) !== 0) {
+				if (pointable.tipVelocity[1] > 0 && (frame.timestamp-lastFastMotion[pointable.id]) < 100000 ) {
 					lastTaps[pointable.id] = frame.timestamp;
 					tappingPointables.push(pointable);
-				} else {
-					//console.log( currentVelocity, prevFrameVelocity)
+				} else if (pointable.tipVelocity[1] < -100) {
+					lastFastMotion[pointable.id] = frame.timestamp;
 				}
 				
 			});
