@@ -4,8 +4,13 @@ define(['../lib/util'], function( util ) {
 	var TAP_DIVISOR = 100;
 	var comparator = util.createJitteredComparator( TAP_DIVISOR );
 	var handComparator = util.createJitteredComparator( 50 );
+	var stillComparator = util.createJitteredComparator( 100 );
 	
-	var DEBOUNCE_TIME = util.toMicroseconds( 0.25 );
+	function isCloseEnoughToZero( number ) {
+		return stillComparator( number, 0 ) === 0;
+	}
+	
+	var DEBOUNCE_TIME = util.toMicroseconds( 0.1 );
 	var STILL_TIME = util.toMicroseconds( 0.05 );
 	
 	exports.create = function( controller ) {
@@ -17,9 +22,7 @@ define(['../lib/util'], function( util ) {
 			
 			frame.pointables.forEach(function( pointable ) {
 				
-				// only tap once every 2.5/10 second
 				if (lastTaps[pointable.id] > frame.timestamp - DEBOUNCE_TIME) { return }
-				// taps go down.
 				
 				var hand = frame.hand(pointable.handId);
 				if (hand === undefined || !hand.valid) {
@@ -30,11 +33,18 @@ define(['../lib/util'], function( util ) {
 					return;
 				}
 							
-				if (pointable.tipVelocity[1] > 0 && (frame.timestamp-lastFastMotion[pointable.id]) < STILL_TIME ) {
+				if ( pointable.tipVelocity[1] > 0 &&
+				     (frame.timestamp-lastFastMotion[pointable.id]) < STILL_TIME 
+				   ) {
 					lastTaps[pointable.id] = frame.timestamp;
 					tappingPointables.push(pointable);
+					
 				} else if (pointable.tipVelocity[1] < -100) {
-					lastFastMotion[pointable.id] = frame.timestamp;
+					if (isCloseEnoughToZero( pointable.tipVelocity[0] ) && isCloseEnoughToZero( pointable.tipVelocity[2] )) {
+						lastFastMotion[pointable.id] = frame.timestamp;
+					} else {
+						lastFastMotion[pointable.id] = 0;
+					}
 				}
 				
 			});
