@@ -11,17 +11,26 @@ define(function( require, exports, module ) {
 	var trigger = paperboy.mixin(exports);
 	var controller = new Leap.Controller();
 	
-	var detectPunches = require('detectors/punch').create( trigger, controller );
-	var detectTaps    = require('detectors/tap').create( trigger, controller );
+	var detectPunches = require('detectors/punch').create( controller );
+	var detectTaps    = require('detectors/tap').create( controller );
+	
+	function triggerPunch( hand ) {
+		trigger('punch', hand);
+	}
+	function triggerTap( pointable ) {
+		trigger('tap', pointable);
+	}
 			
 	controller.onFrame(function() {
 		var frame = controller.lastFrame;
 		if (frame.id % 10) {
 			//return;
 		}
-		detectPunches( frame );
-		detectTaps( frame );
+		var punchingHands = detectPunches( frame );
+		var tappingPointables = detectTaps( frame );
 		
+		punchingHands.forEach(triggerPunch);
+		tappingPointables.forEach(triggerTap);
 	})
 		
 	controller.connect()

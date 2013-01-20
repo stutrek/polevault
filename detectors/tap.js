@@ -15,12 +15,13 @@ define(['../lib/util'], function( util ) {
 		}
 	}
 	
-	exports.create = function( trigger, controller ) {
+	exports.create = function( controller ) {
 		var lastTaps = {};
 		return function( frame ) {
 			var prevFrame = controller.frame(1);
+			var tappingPointables = [];
 			
-			if (!prevFrame || !prevFrame.valid) { return }
+			if (!prevFrame || !prevFrame.valid) { return tappingPointables }	
 			
 			frame.pointables.forEach(function( pointable ) {
 				
@@ -29,7 +30,6 @@ define(['../lib/util'], function( util ) {
 				
 				var hand = getHandForPointable( pointable, frame.hands );
 				if (hand === undefined) {
-					console.log(frame);
 					return;
 				}
 				var prevFramePointable = prevFrame.pointable(pointable.id);
@@ -44,12 +44,14 @@ define(['../lib/util'], function( util ) {
 				
 				if (currentVelocity === 0 && prevFrameVelocity !== 0 && comparator( pointable.tipVelocity, prevFramePointable.tipVelocity ) !== 0) {
 					lastTaps[pointable.id] = frame.timestamp;
-					trigger('tap', pointable);
+					tappingPointables.push(pointable);
 				} else {
 					//console.log( currentVelocity, prevFrameVelocity)
 				}
 				
 			});
+			
+			return tappingPointables;
 		}
 	}
 	return exports;
