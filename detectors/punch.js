@@ -2,6 +2,7 @@ define(['../lib/util'], function( util ) {
 	
 	var absSum = util.absSum;
 	var PUNCH_DIVISOR = 400;
+	var comparator = util.createJitteredComparator( PUNCH_DIVISOR );
 	
 	var exports = {};
 	exports.create = function( trigger, controller ) {
@@ -26,7 +27,7 @@ define(['../lib/util'], function( util ) {
 				var currentVelocity = Math.floor( absSum(hand.palmVelocity) / PUNCH_DIVISOR );
 				var prevFrameVelocity = Math.floor( absSum(prevFrameHand.palmVelocity) / PUNCH_DIVISOR );
 				
-				if (currentVelocity === 0 && prevFrameVelocity !== 0) {
+				if (currentVelocity === 0 && prevFrameVelocity !== 0 && comparator( hand.palmVelocity, prevFrameHand.palmVelocity ) !== 0) {
 					lastPunches[hand.id] = frame.timestamp;
 					trigger('punch', hand);
 				} else {
