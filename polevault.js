@@ -9,8 +9,8 @@ define(function( require, exports, module ) {
 	var Leap = window.Leap;
 
 	var trigger = paperboy.mixin(exports);
-	var controller = new Leap.Controller();
 	
+	var controller = new Leap.Controller();
 	var detectPunches = require('detectors/punch').create( controller );
 	var detectTaps    = require('detectors/tap').create( controller );
 	var detectPoints  = require('detectors/point').create( controller );
