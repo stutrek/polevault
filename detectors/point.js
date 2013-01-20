@@ -10,7 +10,10 @@ define(['../lib/util'], function( util ) {
 		
 		return function( frame ) {
 			
-			var pointingPointables = [];
+			var points = {
+				start: [],
+				end: []
+			}
 
 			frame.pointables.forEach(function( pointable ) {
 				var hand = frame.hand(pointable.handId);
@@ -21,16 +24,19 @@ define(['../lib/util'], function( util ) {
 				if (isStill(pointable)) {
 					//var hand = getHandForPointable( pointable, frame.hands );
 					if (!alreadyPointing[pointable.id] && (frame.timestamp - lastMotion[pointable.id]) > STILL_TIME) {
-						pointingPointables.push(pointable);
+						points.start.push(pointable);
 						alreadyPointing[pointable.id] = true;
 					}
 				} else {
-					alreadyPointing[pointable.id] = false;
+					if (alreadyPointing[pointable.id]) {
+						points.end.push(pointable);
+						alreadyPointing[pointable.id] = false;
+					}
 					lastMotion[pointable.id] = frame.timestamp;
 				}
 			});
 
-			return pointingPointables;
+			return points;
 		}
 	}
 	return exports;

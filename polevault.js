@@ -21,8 +21,11 @@ define(function( require, exports, module ) {
 	function triggerTap( pointable ) {
 		trigger('tap', pointable);
 	}
-	function triggerPoint( pointable ) {
-		trigger('point', pointable);
+	function triggerPointStart( pointable ) {
+		trigger('point.start', pointable);
+	}
+	function triggerPointEnd( pointable ) {
+		trigger('point.end', pointable);
 	}
 			
 	controller.onFrame(function() {
@@ -30,12 +33,13 @@ define(function( require, exports, module ) {
 		
 		var punchingHands = detectPunches( frame );
 		var tappingPointables = detectTaps( frame );
-		var pointingPointables = detectPoints( frame );
+		var point = detectPoints( frame );
 		
 		trigger('frame', frame);
 		punchingHands.forEach(triggerPunch);
 		tappingPointables.forEach(triggerTap);
-		pointingPointables.forEach(triggerPoint);
+		point.start.forEach(triggerPointStart);
+		point.end.forEach(triggerPointEnd);
 		
 	})
 		
