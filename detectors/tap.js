@@ -4,16 +4,7 @@ define(['../lib/util'], function( util ) {
 	var TAP_DIVISOR = 100;
 	var comparator = util.createJitteredComparator( TAP_DIVISOR );
 	var handComparator = util.createJitteredComparator( 50 );
-	
-	function getHandForPointable( pointable, hands ) {
-		for( var i = 0; i < hands.length; i += 1 ) {
-			if (hands[i].valid) {
-				if( hands[i].pointables.indexOf(pointable) !== -1 ) {
-					return hands[i]
-				}
-			}
-		}
-	}
+	var getHandForPointable = util.getHandForPointable;
 	
 	exports.create = function( controller ) {
 		var lastTaps = {};
