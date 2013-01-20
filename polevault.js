@@ -12,13 +12,15 @@ define(function( require, exports, module ) {
 	var controller = new Leap.Controller();
 	
 	var detectPunches = require('detectors/punch').create( trigger, controller );
+	var detectTaps    = require('detectors/tap').create( trigger, controller );
 			
 	controller.onFrame(function() {
 		var frame = controller.lastFrame;
 		if (frame.id % 10) {
 			//return;
 		}
-		detectPunches( frame );	
+		detectPunches( frame );
+		detectTaps( frame );
 		
 	})
 		
