@@ -12,10 +12,10 @@ Pole Vault is a basic pubsub/observer. It monitors the Leap Motion detector and 
 
 * `punch` - a closed fist goes forward then stops suddenly.
 * `tap` - a finger goes down then stops suddenly.
+* `point` - an extended finger held still for longer than a tap.
 
 ### Planned
 
-* `point` - an extended finger held still for longer than a tap.
 * `wave` - a hand with three or more fingers rotates.
  * `wave.start`
  * `wave.stop`
