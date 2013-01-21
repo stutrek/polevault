@@ -1,3 +1,7 @@
+/*
+Often a hand or pointable will appear or disappear for only one or two frames.
+This does not yet take that into account; enter and exit events are often thrown falsely.
+*/
 define(function( require, exports, module ) {
 	exports.create = function( controller ) {
 		

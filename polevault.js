@@ -42,10 +42,12 @@ define(function( require, exports, module ) {
 		
 		trigger('frame', frame);
 		
+		/*
 		enterExit.pointables.exit.forEach(triggerPointableExit);
 		enterExit.hands.exit.forEach(triggerHandExit);
 		enterExit.hands.enter.forEach(triggerHandEnter);
 		enterExit.pointables.enter.forEach(triggerPointableEnter);
+		*/
 		
 		punchingHands.forEach(triggerPunch);
 		tappingPointables.forEach(triggerTap);
