@@ -4,6 +4,7 @@ define(['../lib/util'], function( util ) {
 	var PUNCH_DIVISOR = 300;
 	var comparator = util.createJitteredComparator( PUNCH_DIVISOR );
 	var DEBOUNCE_TIME = util.toMicroseconds( 0.25 );
+	var isZero = util.createIsZero( 300 );
 	
 	var exports = {};
 	exports.create = function( controller ) {
@@ -31,7 +32,7 @@ define(['../lib/util'], function( util ) {
 				var currentVelocity = Math.floor( Math.abs(hand.palmVelocity[2]) / PUNCH_DIVISOR );
 				var prevFrameVelocity = Math.floor( Math.abs(prevFrameHand.palmVelocity[2]) / PUNCH_DIVISOR );
 				
-				if (currentVelocity === 0 && prevFrameVelocity !== 0 && comparator( hand.palmVelocity, prevFrameHand.palmVelocity ) !== 0) {
+				if ( isZero(hand.palmVelocity[2]) && !isZero(prevFrameHand.palmVelocity[2]) ) {
 					lastPunches[hand.id] = frame.timestamp;
 					punchingHands.push( hand );
 				} else {

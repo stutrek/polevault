@@ -4,12 +4,8 @@ define(['../lib/util'], function( util ) {
 	var TAP_DIVISOR = 100;
 	var comparator = util.createJitteredComparator( TAP_DIVISOR );
 	var handComparator = util.createJitteredComparator( 50 );
-	var stillComparator = util.createJitteredComparator( 100 );
-	
-	function isCloseEnoughToZero( number ) {
-		return stillComparator( number, 0 ) === 0;
-	}
-	
+	var isZero = util.createIsZero( 100 );
+		
 	var DEBOUNCE_TIME = util.toMicroseconds( 0.1 );
 	var STILL_TIME = util.toMicroseconds( 0.05 );
 	
@@ -40,7 +36,7 @@ define(['../lib/util'], function( util ) {
 					tappingPointables.push(pointable);
 					
 				} else if (pointable.tipVelocity[1] < -100) {
-					if (isCloseEnoughToZero( pointable.tipVelocity[0] ) && isCloseEnoughToZero( pointable.tipVelocity[2] )) {
+					if (isZero( pointable.tipVelocity[0] ) && isZero( pointable.tipVelocity[2] )) {
 						lastFastMotion[pointable.id] = frame.timestamp;
 					} else {
 						lastFastMotion[pointable.id] = 0;
