@@ -52,8 +52,8 @@ define(function( require, exports, module ) {
 		punchingHands.forEach(triggerPunch);
 		tappingPointables.forEach(triggerTap);
 		
-		point.start.forEach(triggerPointStart);
-		point.end.forEach(triggerPointEnd);
+		//point.start.forEach(triggerPointStart);
+		//point.end.forEach(triggerPointEnd);
 		
 	})
 		

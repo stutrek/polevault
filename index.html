@@ -10,6 +10,10 @@
 		<div id="container"></div>
 	</body>
 	<script type="text/javascript">
+		
+		// make sylvester approximate
+		Sylvester.precision = 0.01;
+		
 		requirejs(['polevault'], function( polevault ) {
 			polevault.on('*', function( type ){
 				if ( type !== 'frame' ) {

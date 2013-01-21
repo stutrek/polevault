@@ -29,14 +29,17 @@ define(['../lib/util'], function( util ) {
 				
 				if (!prevFrameHand.valid) { return }
 							
-				var currentVelocity = Math.floor( Math.abs(hand.palmVelocity[2]) / PUNCH_DIVISOR );
-				var prevFrameVelocity = Math.floor( Math.abs(prevFrameHand.palmVelocity[2]) / PUNCH_DIVISOR );
-				
 				if ( isZero(hand.palmVelocity[2]) && !isZero(prevFrameHand.palmVelocity[2]) ) {
-					lastPunches[hand.id] = frame.timestamp;
-					punchingHands.push( hand );
-				} else {
-					//console.log( currentVelocity, prevFrameVelocity)
+					
+					// a punch is when a hand moves forward in a line.
+					Sylvester.precision = 0.012;
+					var prevLine = Line.create( prevFrameHand.palmPosition, prevFrameHand.palmNormal );
+					var currentLine = Line.create( hand.palmPosition, hand.palmNormal );
+					
+					if (prevLine.isParallelTo(currentLine)) {
+						lastPunches[hand.id] = frame.timestamp;
+						punchingHands.push( hand );
+					}
 				}
 				
 			});
