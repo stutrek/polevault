@@ -11,33 +11,45 @@ define(function( require, exports, module ) {
 	var trigger = paperboy.mixin(exports);
 	
 	var controller = new Leap.Controller();
-	var detectPunches = require('detectors/punch').create( controller );
-	var detectTaps    = require('detectors/tap').create( controller );
-	var detectPoints  = require('detectors/point').create( controller );
+	var detectEnterExit = require('detectors/enterExit').create( controller );
+	var detectPunches   = require('detectors/punch').create( controller );
+	var detectTaps      = require('detectors/tap').create( controller );
+	var detectPoints    = require('detectors/point').create( controller );
 	
-	function triggerPunch( hand ) {
-		trigger('punch', hand);
+	function createTriggerer( eventName ) {
+		return function( arg ) {
+			trigger( eventName, arg );
+		}
 	}
-	function triggerTap( pointable ) {
-		trigger('tap', pointable);
-	}
-	function triggerPointStart( pointable ) {
-		trigger('point.start', pointable);
-	}
-	function triggerPointEnd( pointable ) {
-		trigger('point.end', pointable);
-	}
+	var triggerPunch = createTriggerer( 'punch' );
+	var triggerTap = createTriggerer( 'tap' );
+	var triggerPointStart = createTriggerer( 'point.start' );
+	var triggerPointEnd = createTriggerer( 'point.end' );
+	var triggerHandEnter = createTriggerer( 'hand.enter' );
+	var triggerHandExit = createTriggerer( 'hand.exit' );
+	var triggerPointableEnter = createTriggerer( 'pointable.enter' );
+	var triggerPointableExit = createTriggerer( 'pointable.exit' );
 			
 	controller.onFrame(function() {
 		var frame = controller.lastFrame;
 		
+		var enterExit = detectEnterExit( frame );
 		var punchingHands = detectPunches( frame );
 		var tappingPointables = detectTaps( frame );
 		var point = detectPoints( frame );
 		
+		exports.currentFrame = frame;
+		
 		trigger('frame', frame);
+		
+		enterExit.pointables.exit.forEach(triggerPointableExit);
+		enterExit.hands.exit.forEach(triggerHandExit);
+		enterExit.hands.enter.forEach(triggerHandEnter);
+		enterExit.pointables.enter.forEach(triggerPointableEnter);
+		
 		punchingHands.forEach(triggerPunch);
 		tappingPointables.forEach(triggerTap);
+		
 		point.start.forEach(triggerPointStart);
 		point.end.forEach(triggerPointEnd);
 		
