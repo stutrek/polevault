@@ -31,10 +31,18 @@ Pole Vault is a basic pubsub/observer. It monitors the Leap Motion detector and 
  
 * `pinch`, `spread`, `rotate`.
 
-### Technical Difficulties
-* `sweep` - all fingers start to move suddenly in the same direction. _When fingers get too close to the palm the device is unable to detect them._
-* `clap` - two hands close in on each other. _When two hands meet they they are detected as one_
-
-#### Planes
+### Planes
 
 Create a plane with three points (or two and a direction) and receive events when it is crossed.
+
+### Technical Difficulties
+
+#### Coming
+
+* `clap` - two hands close in on each other. _When two hands meet they they are detected as one._
+* `hand/pointer.enter/exit` - _the device will randomly send one frame without a hand or pointer, or falsely report one for a single frame._
+
+#### Unlikely
+
+* `sweep` - all fingers start to move suddenly in the same direction. _When fingers get too close to the palm the device is unable to detect them._
+
