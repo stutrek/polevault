@@ -2,7 +2,7 @@
 
 A library to simplify working with the Leap Motion detector. http://leapmotion.com
 
-Pole Vault is a basic pubsub/observer. It monitors the Leap Motion detector and throws events when certain things happen.
+Pole Vault is a basic pubsub/observer. It monitors the Leap Motion detector and throws events when certain gestures are recognized.
 
 `polevault.on( event, callback )`
 
