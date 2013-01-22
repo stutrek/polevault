@@ -14,6 +14,7 @@ define(function( require, exports, module ) {
 	var detectEnterExit = require('detectors/enterExit').create( controller );
 	var detectPunches   = require('detectors/punch').create( controller );
 	var detectKnocks    = require('detectors/knock').create( controller );
+	var detectDribbles  = require('detectors/dribble').create( controller );
 	var detectTaps      = require('detectors/tap').create( controller );
 	var detectPoints    = require('detectors/point').create( controller );
 	
@@ -24,6 +25,7 @@ define(function( require, exports, module ) {
 	}
 	var triggerPunch = createTriggerer( 'punch' );
 	var triggerKnock = createTriggerer( 'knock' );
+	var triggerDribble = createTriggerer( 'dribble' );
 	var triggerTap = createTriggerer( 'tap' );
 	var triggerPointStart = createTriggerer( 'point.start' );
 	var triggerPointEnd = createTriggerer( 'point.end' );
@@ -38,6 +40,7 @@ define(function( require, exports, module ) {
 		var enterExit = detectEnterExit( frame );
 		var punchingHands = detectPunches( frame );
 		var knockingHands = detectKnocks( frame );
+		var dribblingHands = detectDribbles( frame );
 		var tappingPointables = detectTaps( frame );
 		var point = detectPoints( frame );
 		
@@ -54,6 +57,7 @@ define(function( require, exports, module ) {
 		
 		punchingHands.forEach(triggerPunch);
 		knockingHands.forEach(triggerKnock);
+		dribblingHands.forEach(triggerDribble);
 		tappingPointables.forEach(triggerTap);
 		
 		//point.start.forEach(triggerPointStart);
