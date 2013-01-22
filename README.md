@@ -10,9 +10,13 @@ Pole Vault is a basic pubsub/observer. It monitors the Leap Motion detector and 
 
 ### Implemented
 
+#### Hand Motions
 * `frame` - a frame arrived from the detector.
 * `punch` - a closed fist goes forward on a line then stops suddenly.
 * `knock` - a closed fist moves down or forward while the wrist stays still
+* `dribble` - an open hand goes down then stops, like a basketball.
+
+#### Finger Motions
 * `tap` - a finger goes down then stops suddenly.
 * `point.start`, `point.end` -  the only finger on a hand holds still for a moment.
 
@@ -22,7 +26,6 @@ Pole Vault is a basic pubsub/observer. It monitors the Leap Motion detector and 
  * `wave.start`
  * `wave.stop`
  
-* `dribble` - an open hand goes down then stops, like a basketball.
 * `shake` - a fist moves back and fourth quickly.
  * `shake.start`
  * `shake.stop`

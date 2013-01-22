@@ -25,7 +25,7 @@ define(['../lib/util'], function( util ) {
 					return;
 				}
 				
-				if (handComparator( pointable.tipVelocity[1], hand.palmVelocity[1]) === 0) {
+				if (!isZero(hand.palmVelocity[1])) {
 					return;
 				}
 							
@@ -35,7 +35,7 @@ define(['../lib/util'], function( util ) {
 					lastTaps[pointable.id] = frame.timestamp;
 					tappingPointables.push(pointable);
 					
-				} else if (pointable.tipVelocity[1] < -100) {
+				} else if (pointable.tipVelocity[1] < -200) {
 					if (isZero( pointable.tipVelocity[0] ) && isZero( pointable.tipVelocity[2] )) {
 						lastFastMotion[pointable.id] = frame.timestamp;
 					} else {
