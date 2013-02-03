@@ -5,18 +5,18 @@ MIT Licensed
 */
 define(function( require, exports, module ) {
 	
-	var paperboy = require('lib/paperboy');
+	var paperboy = require('./lib/paperboy');
 	var Leap = window.Leap;
 
 	var trigger = paperboy.mixin(exports);
 	
 	var controller = new Leap.Controller();
-	var detectEnterExit = require('detectors/enterExit').create( controller );
-	var detectPunches   = require('detectors/punch').create( controller );
-	var detectKnocks    = require('detectors/knock').create( controller );
-	var detectDribbles  = require('detectors/dribble').create( controller );
-	var detectTaps      = require('detectors/tap').create( controller );
-	var detectPoints    = require('detectors/point').create( controller );
+	var detectEnterExit = require('./detectors/enterExit').create( controller );
+	var detectPunches   = require('./detectors/punch').create( controller );
+	var detectKnocks    = require('./detectors/knock').create( controller );
+	var detectDribbles  = require('./detectors/dribble').create( controller );
+	var detectTaps      = require('./detectors/tap').create( controller );
+	var detectPoints    = require('./detectors/point').create( controller );
 	
 	function createTriggerer( eventName ) {
 		return function( arg ) {
