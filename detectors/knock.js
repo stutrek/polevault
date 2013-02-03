@@ -6,7 +6,7 @@ define(['../lib/util'], function( util ) {
 
 	var exports = {};
 	exports.create = function( controller ) {
-		var lastaKnocks = {};
+		var lastKnocks = {};
 
 		return function( frame ) {
 			var prevFrame = controller.frame(1);
@@ -17,9 +17,9 @@ define(['../lib/util'], function( util ) {
 
 			frame.hands.forEach(function( hand ) {
 
-				if (lastaKnocks[hand.id] > frame.timestamp - DEBOUNCE_TIME) { return }
+				if (lastKnocks[hand.id] > frame.timestamp - DEBOUNCE_TIME) { return }
 				// knocks are fists, there should be no fingers.
-				if (hand.fingers.length) { return }
+				if (hand.pointables.length > 1) { return }
 				// punches go forward, not back.
 				if (hand.palmVelocity[2] < 0 || hand.palmVelocity[1] < 0) {
 					//nothing
@@ -46,7 +46,7 @@ define(['../lib/util'], function( util ) {
 					var currentLine = Line.create( hand.palmPosition, hand.palmNormal );
 
 					if (!prevLine.isParallelTo(currentLine)) {
-						lastaKnocks[hand.id] = frame.timestamp;
+						lastKnocks[hand.id] = frame.timestamp;
 						knockingHands.push( hand );
 					}
 				}

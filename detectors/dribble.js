@@ -20,7 +20,7 @@ define(['../lib/util'], function( util ) {
 				if (lastDribbles[hand.id] > frame.timestamp - DEBOUNCE_TIME) { return }
 				
 				// Dribbles are open hands. Those have fingers.
-				if (!hand.fingers.length) { return }
+				if (hand.pointables.length < 2) { return }
 				// dribbles go down.
 				if (hand.palmVelocity[1] > 0) {
 					return
